@@ -7,6 +7,21 @@ Automates importing a binary into a fresh Ghidra project and opens it in the GUI
 - `analyzeHeadless` and `ghidra` available in `PATH` (typical install puts `analyzeHeadless` at `/opt/ghidra/support/analyzeHeadless`; add it with `export PATH="/opt/ghidra/support:$PATH"`).
 - A writable `$HOME` (falls back to `./GhidraProjects` if unset).
 
+## Add analyzeHeadless to PATH (step-by-step)
+```bash
+# 1) Confirm the location of analyzeHeadless (default is shown)
+ls /opt/ghidra/support/analyzeHeadless
+
+# 2) Add it to PATH for your shell (bash example; use .zshrc for zsh)
+echo 'export PATH="/opt/ghidra/support:$PATH"' >> "$HOME/.bashrc"
+
+# 3) Reload your shell config so the change applies now
+source "$HOME/.bashrc"
+
+# 4) Verify it resolves correctly
+which analyzeHeadless
+```
+
 ## Build
 ```bash
 g++ -std=c++17 ghidra_auto.cpp -o ghidra_auto
@@ -40,3 +55,5 @@ ghidra_auto <binary>
   # /opt/ghidra/support/analyzeHeadless  (example)
   ```
 - Projects land in `$HOME/GhidraProjects`; adjust that in the source if you want a different root.
+
+Developed by me.
