@@ -2,6 +2,36 @@
 
 Automates importing a binary into a fresh Ghidra project and opens it in the GUI. Each run drops a new project under `$HOME/GhidraProjects/<binary>_<timestamp>` so you keep clean, timestamped workspaces.
 
+## One-shot install (copy/paste)
+```bash
+set -euo pipefail
+
+# 1) Clone and enter the repo (update REPO_URL if you host it elsewhere)
+REPO_URL="https://github.com/your-user/ghidra-auto-importer.git"
+git clone "$REPO_URL"
+cd "$(basename "${REPO_URL%.git}")"
+
+# 2) Make analyzeHeadless available (adjust path if your Ghidra lives elsewhere)
+GHIDRA_SUPPORT="/opt/ghidra/support"
+export PATH="$GHIDRA_SUPPORT:$PATH"
+grep -q 'export PATH="/opt/ghidra/support:$PATH"' "$HOME/.bashrc" 2>/dev/null || echo 'export PATH="/opt/ghidra/support:$PATH"' >> "$HOME/.bashrc"
+
+# 3) Ensure the default project directory exists
+mkdir -p "$HOME/GhidraProjects"
+
+# 4) Build the helper
+g++ -std=c++17 ghidra_auto.cpp -o ghidra_auto
+
+# 5) Add the binary to your PATH (user-local)
+mkdir -p "$HOME/bin"
+mv ghidra_auto "$HOME/bin/"
+export PATH="$HOME/bin:$PATH"
+grep -q 'export PATH="$HOME/bin:$PATH"' "$HOME/.bashrc" 2>/dev/null || echo 'export PATH="$HOME/bin:$PATH"' >> "$HOME/.bashrc"
+
+# Ready to go
+ghidra_auto --help
+```
+
 ## Requirements
 - Ghidra installed.
 - `analyzeHeadless` and `ghidra` available in `PATH` (typical install puts `analyzeHeadless` at `/opt/ghidra/support/analyzeHeadless`; add it with `export PATH="/opt/ghidra/support:$PATH"`).
