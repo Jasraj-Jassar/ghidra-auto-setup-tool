@@ -1,4 +1,4 @@
-# Ghidra Auto-Importer
+# Ghidra Auto Setup Tool
 
 Automates importing a binary into a fresh Ghidra project and opens it in the GUI. Each run drops a new project under `$HOME/GhidraProjects/<binary>_<timestamp>` so you keep clean, timestamped workspaces.
 
